@@ -32,6 +32,7 @@ module "rbac" {
   application_token = var.application_token
   application_paths = var.application_paths
   namespace = var.namespace
+  label = module.service_account.name
   service_account_namespace = module.service_account.namespace
   service_account_name      = module.service_account.name
   rules = [

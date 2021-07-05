@@ -46,7 +46,7 @@ git clone "https://${TOKEN}@${REPO}" "${REPO_DIR}"
 
 cd "${REPO_DIR}" || exit 1
 
-cat > "${REPO_PATH}/dashboard.yaml" <<EOL
+cat > "${REPO_PATH}/console-link-job.yaml" <<EOL
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
