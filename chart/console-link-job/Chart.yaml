@@ -25,3 +25,4 @@ appVersion: 1.16.0
 dependencies:
   - name: console-link-job
     version: v0.1.0
+    repository: https://charts.cloud-native-toolkit.dev/
