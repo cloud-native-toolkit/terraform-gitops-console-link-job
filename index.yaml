@@ -13,6 +13,81 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-tools-gitops.git
             version: ">= 1.1.0"
+      - id: namespace
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
+            version: ">= 1.0.0"
+    variables:
+      - name: config_repo
+        moduleRef:
+          id: gitops
+          output: config_repo
+        type: string
+        description: The repo that contains the argocd configuration
+      - name: config_token
+        moduleRef:
+          id: gitops
+          output: config_token
+        type: string
+        description: The token for the config repo
+      - name: config_paths
+        moduleRef:
+          id: gitops
+          output: config_paths
+        type: |-
+          object({
+              infrastructure = string
+              services       = string
+              applications   = string
+            })
+        description: The paths in the config repo
+      - name: config_projects
+        moduleRef:
+          id: gitops
+          output: config_projects
+        type: |-
+          object({
+              infrastructure = string
+              services       = string
+              applications   = string
+            })
+        description: The ArgoCD projects in the config repo
+      - name: application_repo
+        moduleRef:
+          id: gitops
+          output: application_repo
+        type: string
+        description: The repo that contains the application configuration
+      - name: application_token
+        moduleRef:
+          id: gitops
+          output: application_token
+        type: string
+        description: The token for the application repo
+      - name: application_paths
+        moduleRef:
+          id: gitops
+          output: application_paths
+        type: |-
+          object({
+              infrastructure = string
+              services       = string
+              applications   = string
+            })
+        description: The paths in the application repo
+      - name: namespace
+        moduleRef:
+          id: namespace
+          output: name
+        type: string
+        description: The namespace where the application should be deployed
+    version: v1.0.0
+  - platforms: []
+    dependencies:
+      - id: gitops
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-tools-gitops.git
+            version: ">= 1.1.0"
       - id: cluster
         refs:
           - source: github.com/ibm-garage-cloud/terraform-ibm-container-platform
