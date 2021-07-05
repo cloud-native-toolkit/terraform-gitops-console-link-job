@@ -1,5 +1,5 @@
 
-console-link-job:
+console-link-cronjob:
   serviceAccount:
     create: false
     name: SERVICE_ACCOUNT_NAME
