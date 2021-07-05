@@ -10,7 +10,7 @@ APPLICATION_GIT_PATH="$5"
 NAMESPACE="$6"
 BRANCH="$7"
 
-REPO_DIR=".tmprepo-dashboard-${NAMESPACE}"
+REPO_DIR=".tmprepo-console-link-${NAMESPACE}"
 
 SEMAPHORE="${REPO//\//-}.semaphore"
 SEMAPHORE_ID="${SCRIPT_DIR//\//-}"
@@ -50,7 +50,7 @@ cat > "${REPO_PATH}/dashboard.yaml" <<EOL
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dashboard-${BRANCH}
+  name: console-link-job-${BRANCH}
 spec:
   destination:
     namespace: ${NAMESPACE}
@@ -68,7 +68,7 @@ EOL
 
 if [[ $(git status --porcelain | wc -l) -gt 0 ]]; then
   git add .
-  git commit -m "Adds argocd config for dashboard"
+  git commit -m "Adds argocd config for console-link-job"
   git push
 fi
 

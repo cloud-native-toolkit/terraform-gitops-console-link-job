@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
+MODULE_DIR=$(cd "${SCRIPT_DIR}/.."; pwd -P)
 
 REPO="$1"
 REPO_PATH="$2"
 NAMESPACE="$3"
-VALUES_CONTENT="$4"
+SERVICE_ACCOUNT_NAME="$4"
 
 REPO_DIR=".tmprepo-${NAMESPACE}"
 
@@ -45,10 +46,11 @@ cd "${REPO_DIR}" || exit 1
 
 mkdir -p "${REPO_PATH}"
 
-# insert logic here
+cp "${MODULE_DIR}/chart/console-link-job/"* "${REPO_PATH}"
+cat "${MODULE_DIR}/chart/console-link-job/values.yaml" | sed "s/SERVICE_ACCOUNT_NAME/${SERVICE_ACCOUNT_NAME}/g" > "${REPO_PATH}/values.yaml"
 
 git add .
-git commit -m "Adds config for Dashboard"
+git commit -m "Adds config for console-link-job"
 git push
 
 cd ..

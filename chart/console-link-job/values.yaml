@@ -1,0 +1,7 @@
+
+console-link-job:
+  serviceAccount:
+    create: false
+    name: SERVICE_ACCOUNT_NAME
+
+  rbac: false
