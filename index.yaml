@@ -1,0 +1,117 @@
+id: github.com/cloud-native-toolkit/terraform-gitops-console-link-job
+name: ""
+type: terraform
+description: ""
+tags:
+  - tools
+  - gitops
+  - dashboard
+versions:
+  - platforms: []
+    dependencies:
+      - id: gitops
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-tools-gitops.git
+            version: ">= 1.1.0"
+      - id: cluster
+        refs:
+          - source: github.com/ibm-garage-cloud/terraform-ibm-container-platform
+            version: ">= 1.7.0"
+          - source: github.com/ibm-garage-cloud/terraform-ibm-ocp-vpc
+            version: ">= 1.0.0"
+          - source: github.com/ibm-garage-cloud/terraform-k8s-ocp-cluster
+            version: ">= 2.0.0"
+      - id: namespace
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
+            version: ">= 1.0.0"
+    variables:
+      - name: config_repo
+        moduleRef:
+          id: gitops
+          output: config_repo
+        type: string
+        description: The repo that contains the argocd configuration
+      - name: config_token
+        moduleRef:
+          id: gitops
+          output: config_token
+        type: string
+        description: The token for the config repo
+      - name: config_paths
+        moduleRef:
+          id: gitops
+          output: config_paths
+        type: |-
+          object({
+              infrastructure = string
+              services       = string
+              applications   = string
+            })
+        description: The paths in the config repo
+      - name: config_projects
+        moduleRef:
+          id: gitops
+          output: config_projects
+        type: |-
+          object({
+              infrastructure = string
+              services       = string
+              applications   = string
+            })
+        description: The ArgoCD projects in the config repo
+      - name: application_repo
+        moduleRef:
+          id: gitops
+          output: application_repo
+        type: string
+        description: The repo that contains the application configuration
+      - name: application_token
+        moduleRef:
+          id: gitops
+          output: application_token
+        type: string
+        description: The token for the application repo
+      - name: application_paths
+        moduleRef:
+          id: gitops
+          output: application_paths
+        type: |-
+          object({
+              infrastructure = string
+              services       = string
+              applications   = string
+            })
+        description: The paths in the application repo
+      - name: cluster_type
+        moduleRef:
+          id: cluster
+          output: platform.type_code
+        type: string
+        description: The cluster type (openshift or ocp3 or ocp4 or kubernetes)
+      - name: cluster_ingress_hostname
+        moduleRef:
+          id: cluster
+          output: platform.ingress
+        type: string
+        description: Ingress hostname of the IKS cluster.
+      - name: tls_secret_name
+        moduleRef:
+          id: cluster
+          output: platform.tls_secret
+        type: string
+        description: The name of the secret containing the tls certificate values
+        default: ""
+        optional: true
+      - name: namespace
+        moduleRef:
+          id: namespace
+          output: name
+        type: string
+        description: The namespace where the application should be deployed
+      - name: image_tag
+        type: string
+        description: The image version tag to use
+        default: v1.4.4
+        optional: true
+    version: v0.0.0
