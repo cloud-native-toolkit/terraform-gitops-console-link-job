@@ -6,7 +6,7 @@ locals {
 }
 
 module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.0.0"
 
   config_repo = var.config_repo
   config_token = var.config_token
@@ -20,7 +20,7 @@ module "service_account" {
 }
 
 module "rbac" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac.git?ref=v1.3.0"
 
   cluster_scope = true
 

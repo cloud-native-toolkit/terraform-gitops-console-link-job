@@ -1,5 +1,5 @@
 module "gitops_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git?ref=v1.4.1"
 
   config_repo = module.gitops.config_repo
   config_token = module.gitops.config_token
