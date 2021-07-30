@@ -37,6 +37,16 @@ module "rbac" {
   service_account_name      = module.service_account.name
   rules = [
     {
+      apiGroups = [""]
+      resources = ["configmaps"]
+      verbs = ["*"]
+    },
+    {
+      apiGroups = ["apps"]
+      resources = ["daemonsets"]
+      verbs = ["list", "get"]
+    },
+    {
       apiGroups = ["route.openshift.io"]
       resources = ["routes"]
       verbs = ["list", "get"]
