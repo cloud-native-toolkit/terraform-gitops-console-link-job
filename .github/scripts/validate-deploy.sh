@@ -4,7 +4,7 @@ GIT_REPO=$(cat git_repo)
 GIT_TOKEN=$(cat git_token)
 
 export KUBECONFIG=$(cat .kubeconfig)
-NAMESPACE=$(cat .namespace)
+NAMESPACE="gitops-console-link-job"
 BRANCH="main"
 SERVER_NAME="default"
 NAME="console-link-job"
