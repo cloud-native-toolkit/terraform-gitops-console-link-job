@@ -5,6 +5,4 @@ module "gitops_namespace" {
   git_credentials = module.gitops.git_credentials
   server_name = module.gitops.server_name
   name = var.namespace
-  argocd_namespace = "openshift-gitops"
-  argocd_service_account      = "argocd-cluster-argocd-application-controller"
 }
