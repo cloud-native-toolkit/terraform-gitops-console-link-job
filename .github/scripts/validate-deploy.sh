@@ -8,7 +8,7 @@ NAMESPACE="gitops-console-link-job"
 BRANCH="main"
 SERVER_NAME="default"
 NAME="console-link-job"
-LAYER="1-infrastructure"
+LAYER="2-services"
 
 mkdir -p .testrepo
 
