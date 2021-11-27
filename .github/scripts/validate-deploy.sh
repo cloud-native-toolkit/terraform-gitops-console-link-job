@@ -8,6 +8,7 @@ NAMESPACE="gitops-console-link-job"
 BRANCH="main"
 SERVER_NAME="default"
 NAME="console-link-job"
+LAYER="1-infrastructure"
 
 mkdir -p .testrepo
 
@@ -17,21 +18,21 @@ cd .testrepo || exit 1
 
 find . -name "*"
 
-if [[ ! -f "argocd/2-services/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml" ]]; then
-  echo "ArgoCD config missing - argocd/2-services/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
+if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml" ]]; then
+  echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
   exit 1
 fi
 
-echo "Printing argocd/2-services/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
-cat "argocd/2-services/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
+echo "Printing argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
+cat "argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
 
-if [[ ! -f "payload/2-services/namespace/${NAMESPACE}/${NAME}/values.yaml" ]]; then
-  echo "Application values not found - payload/2-services/namespace/${NAMESPACE}/${NAME}/values.yaml"
+if [[ ! -f "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml" ]]; then
+  echo "Application values not found - payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
   exit 1
 fi
 
-echo "Printing payload/2-services/namespace/${NAMESPACE}/${NAME}/values.yaml"
-cat "payload/2-services/namespace/${NAMESPACE}/${NAME}/values.yaml"
+echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
+cat "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
 
 cd ..
 rm -rf .testrepo
