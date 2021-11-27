@@ -10,7 +10,7 @@ module setup_clis {
 }
 
 module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.3.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.3.3"
 
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
@@ -20,7 +20,7 @@ module "service_account" {
 }
 
 module "rbac" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac.git?ref=v1.6.1"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac.git?ref=v1.6.2"
 
   cluster_scope = true
 
@@ -67,7 +67,7 @@ resource null_resource setup_gitops {
     command = "${local.bin_dir}/igc gitops-module '${local.name}' -n '${var.namespace}' --contentDir '${local.yaml_dir}' --serverName '${var.server_name}' -l '${local.layer}'"
 
     environment = {
-      GIT_CREDENTIALS = yamlencode(var.git_credentials)
+      GIT_CREDENTIALS = nonsensitive(yamlencode(var.git_credentials))
       GITOPS_CONFIG   = yamlencode(var.gitops_config)
     }
   }
