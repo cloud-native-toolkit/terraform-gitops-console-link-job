@@ -55,6 +55,8 @@ jobs:
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+          LOCK: branch
+          RATE_LIMIT: 'true'
 
       - name: Verify destroy on ${{ matrix.testcase }}
         uses: ibm-garage-cloud/action-module-verify-destroy@main
@@ -68,6 +70,8 @@ jobs:
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+          LOCK: branch
+          RATE_LIMIT: 'true'
 
   release:
     #    if: ${{ github.event_name == 'push' }}

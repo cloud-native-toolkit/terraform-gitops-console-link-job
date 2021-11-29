@@ -9,8 +9,14 @@ module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
 
+resource null_resource print_env {
+  provisioner "local-exec" {
+    command = "env"
+  }
+}
+
 module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.3.3"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git"
 
   gitops_config = var.gitops_config
   git_credentials = var.git_credentials
@@ -20,7 +26,8 @@ module "service_account" {
 }
 
 module "rbac" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac.git?ref=v1.6.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac.git"
+  depends_on = [module.service_account]
 
   cluster_scope = true
 
@@ -61,7 +68,7 @@ resource null_resource create_yaml {
 }
 
 resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml]
+  depends_on = [null_resource.create_yaml, module.service_account, module.rbac]
 
   provisioner "local-exec" {
     command = "${local.bin_dir}/igc gitops-module '${local.name}' -n '${var.namespace}' --contentDir '${local.yaml_dir}' --serverName '${var.server_name}' -l '${local.layer}'"
