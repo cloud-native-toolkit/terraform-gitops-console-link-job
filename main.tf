@@ -9,12 +9,6 @@ module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
 
-resource null_resource print_env {
-  provisioner "local-exec" {
-    command = "env"
-  }
-}
-
 module "service_account" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git"
 
