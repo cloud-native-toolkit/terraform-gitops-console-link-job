@@ -34,5 +34,13 @@ fi
 echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
 cat "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
 
+if [[ ! -f "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml" ]]; then
+  echo "Application values not found - payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml"
+  exit 1
+fi
+
+echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml"
+cat "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml"
+
 cd ..
 rm -rf .testrepo
