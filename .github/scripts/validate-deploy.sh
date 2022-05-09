@@ -1,14 +1,33 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
+
 GIT_REPO=$(cat git_repo)
 GIT_TOKEN=$(cat git_token)
 
+BIN_DIR=$(cat .bin_dir)
+
+export PATH="${BIN_DIR}:${PATH}"
+
+source "${SCRIPT_DIR}/validation-functions.sh"
+
+if ! command -v oc 1> /dev/null 2> /dev/null; then
+  echo "oc cli not found" >&2
+  exit 1
+fi
+
+if ! command -v kubectl 1> /dev/null 2> /dev/null; then
+  echo "kubectl cli not found" >&2
+  exit 1
+fi
+
 export KUBECONFIG=$(cat .kubeconfig)
-NAMESPACE="gitops-console-link-job"
-BRANCH="main"
-SERVER_NAME="default"
-NAME="console-link-job"
-LAYER="2-services"
+NAMESPACE=$(cat .namespace)
+COMPONENT_NAME=$(jq -r '.name // "my-module"' gitops-output.json)
+BRANCH=$(jq -r '.branch // "main"' gitops-output.json)
+SERVER_NAME=$(jq -r '.server_name // "default"' gitops-output.json)
+LAYER=$(jq -r '.layer_dir // "2-services"' gitops-output.json)
+TYPE=$(jq -r '.type // "base"' gitops-output.json)
 
 mkdir -p .testrepo
 
@@ -18,29 +37,16 @@ cd .testrepo || exit 1
 
 find . -name "*"
 
-if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml" ]]; then
-  echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
-  exit 1
-fi
+set -e
 
-echo "Printing argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
-cat "argocd/${LAYER}/cluster/${SERVER_NAME}/base/${NAMESPACE}-${NAME}.yaml"
+validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values.yaml"
+validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values-${SERVER_NAME}.yaml"
+validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "templates/sonarqube-access.yaml"
 
-if [[ ! -f "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml" ]]; then
-  echo "Application values not found - payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
-  exit 1
-fi
+check_k8s_namespace "${NAMESPACE}"
 
-echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
-cat "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/values.yaml"
-
-if [[ ! -f "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml" ]]; then
-  echo "Application values not found - payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml"
-  exit 1
-fi
-
-echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml"
-cat "payload/${LAYER}/namespace/${NAMESPACE}/${NAME}/Chart.yaml"
+check_k8s_resource "${NAMESPACE}" "sealedsecret" "sonarqube-access"
+check_k8s_resource "${NAMESPACE}" "secret" "sonarqube-access"
 
 cd ..
 rm -rf .testrepo

@@ -15,6 +15,25 @@ variable "region" {
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
 }
 
+variable cluster_username {
+  type        = string
+  description = "The username for AWS access"
+}
+
+variable "cluster_password" {
+  type        = string
+  description = "The password for AWS access"
+}
+
+variable "server_url" {
+  type        = string
+}
+
+variable "bootstrap_prefix" {
+  type = string
+  default = ""
+}
+
 variable "namespace" {
   type        = string
   description = "Namespace for tools"
@@ -64,7 +83,7 @@ variable "git_type" {
 }
 
 variable "git_org" {
-  default = "seansund"
+  default = "cloud-native-toolkit-test"
 }
 
 variable "git_repo" {
@@ -76,4 +95,11 @@ variable "gitops_namespace" {
 }
 
 variable "git_username" {
+}
+
+variable "kubeseal_namespace" {
+  default = "sealed-secrets"
+}
+
+variable "cp_entitlement_key" {
 }
