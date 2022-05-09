@@ -3,6 +3,7 @@ locals {
   layer = "services"
   yaml_dir = "${path.cwd}/.tmp/console-link-job"
   name = "console-link-job"
+  application_branch = "main"
 }
 
 module setup_clis {
