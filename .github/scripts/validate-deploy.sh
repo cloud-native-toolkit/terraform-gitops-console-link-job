@@ -44,9 +44,6 @@ validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${
 
 
 check_k8s_namespace "${NAMESPACE}"
-
-check_k8s_resource "${NAMESPACE}" "sealedsecret" "sonarqube-access"
-check_k8s_resource "${NAMESPACE}" "secret" "sonarqube-access"
-
+sleep 4m
 cd ..
 rm -rf .testrepo
