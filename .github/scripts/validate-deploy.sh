@@ -46,5 +46,6 @@ validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${
 check_k8s_namespace "${NAMESPACE}"
 sleep 4m
 
+sleep 4m
 cd ..
 rm -rf .testrepo
