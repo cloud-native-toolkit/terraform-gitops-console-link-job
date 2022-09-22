@@ -14,27 +14,26 @@ resource gitops_service_account sa {
   credentials = var.git_credentials
 
   cluster_scope = true
-  rules = [
-    {
-      apiGroups = [""]
-      resources = ["configmaps"]
-      verbs = ["*"]
-    },
-    {
-      apiGroups = ["apps"]
-      resources = ["daemonsets"]
-      verbs = ["list", "get"]
-    },
-    {
-      apiGroups = ["route.openshift.io"]
-      resources = ["routes"]
-      verbs = ["list", "get"]
-    }, {
-      apiGroups = ["console.openshift.io"]
-      resources = ["consolelinks"]
-      verbs = ["*"]
-    }
-  ]
+  rules {
+    apiGroups = [""]
+     resources = ["configmaps"]
+     verbs = ["*"]
+  }
+  rules {
+    apiGroups = ["apps"]
+    resources = ["daemonsets"]
+    verbs = ["list", "get"]
+  }
+  rules {
+    apiGroups = ["route.openshift.io"]
+    resources = ["routes"]
+    verbs = ["list", "get"]
+  }
+  rules {
+    apiGroups = ["console.openshift.io"]
+    resources = ["consolelinks"]
+    verbs = ["*"]
+  }
 }
 
 resource null_resource create_yaml {
