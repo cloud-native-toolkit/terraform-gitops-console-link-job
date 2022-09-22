@@ -15,22 +15,22 @@ resource gitops_service_account sa {
 
   cluster_scope = true
   rules {
-    apiGroups = [""]
+    api_groups = [""]
      resources = ["configmaps"]
      verbs = ["*"]
   }
   rules {
-    apiGroups = ["apps"]
+    api_groups = ["apps"]
     resources = ["daemonsets"]
     verbs = ["list", "get"]
   }
   rules {
-    apiGroups = ["route.openshift.io"]
+    api_groups = ["route.openshift.io"]
     resources = ["routes"]
     verbs = ["list", "get"]
   }
   rules {
-    apiGroups = ["console.openshift.io"]
+    api_groups = ["console.openshift.io"]
     resources = ["consolelinks"]
     verbs = ["*"]
   }
