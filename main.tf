@@ -1,5 +1,4 @@
 locals {
-  bin_dir  = module.setup_clis.bin_dir
   layer = "services"
   yaml_dir = "${path.cwd}/.tmp/console-link-job"
   name = "console-link-job"
@@ -7,32 +6,14 @@ locals {
   type = "base"
 }
 
-module setup_clis {
-  source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
-}
-
-module "service_account" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-service-account.git?ref=v1.9.0"
-
-  gitops_config = var.gitops_config
-  git_credentials = var.git_credentials
-  namespace = var.namespace
+resource gitops_service_account sa {
   name = "console-link-job"
+  namespace = var.namespace
   server_name = var.server_name
-}
-
-module "rbac" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-rbac.git?ref=v1.9.1"
-  depends_on = [module.service_account]
+  config = var.gitops_config
+  credentials = var.git_credentials
 
   cluster_scope = true
-
-  gitops_config = var.gitops_config
-  git_credentials = var.git_credentials
-  namespace = var.namespace
-  label = module.service_account.name
-  service_account_namespace = module.service_account.namespace
-  service_account_name      = module.service_account.name
   rules = [
     {
       apiGroups = [""]
@@ -54,17 +35,16 @@ module "rbac" {
       verbs = ["*"]
     }
   ]
-  server_name = var.server_name
 }
 
 resource null_resource create_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml.sh '${local.yaml_dir}' '${module.service_account.name}'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.yaml_dir}' '${gitops_service_account.sa.name}'"
   }
 }
 
 resource gitops_module module {
-  depends_on = [null_resource.create_yaml, module.service_account]
+  depends_on = [null_resource.create_yaml, gitops_service_account.sa]
 
   name = local.name
   namespace = var.namespace

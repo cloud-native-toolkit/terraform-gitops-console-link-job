@@ -41,11 +41,9 @@ set -e
 
 validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values.yaml"
 
-
-
 check_k8s_namespace "${NAMESPACE}"
-sleep 4m
+check_k8s_resource "${NAMESPACE}" serviceaccount console-link-job
+check_k8s_resource "${NAMESPACE}" cronjob console-link-cronjob
 
-sleep 4m
 cd ..
 rm -rf .testrepo
