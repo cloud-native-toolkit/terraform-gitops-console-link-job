@@ -10,8 +10,8 @@ resource gitops_service_account sa {
   name = "console-link-job"
   namespace = var.namespace
   server_name = var.server_name
-  config = var.gitops_config
-  credentials = var.git_credentials
+  config = yamlencode(var.gitops_config)
+  credentials = yamlencode(var.git_credentials)
 
   cluster_scope = true
   rules {
