@@ -45,7 +45,7 @@ validate_gitops_content "${NAMESPACE}" "1-infrastructure" "${SERVER_NAME}" "${TY
 
 check_k8s_namespace "${NAMESPACE}"
 check_k8s_resource "${NAMESPACE}" serviceaccount console-link-job
-check_k8s_resource "${NAMESPACE}" cronjob console-link-cronjob
+check_k8s_resource "${NAMESPACE}" cronjob console-link-cronjob-console-link-cronjob
 
 cd ..
 rm -rf .testrepo
