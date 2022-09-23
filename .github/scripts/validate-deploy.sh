@@ -40,11 +40,11 @@ find . -name "*"
 set -e
 
 validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values.yaml"
-validate_gitops_content "${NAMESPACE}" "1-infrastructure" "${SERVER_NAME}" "${TYPE}" "console-link-job-sa" "values.yaml"
-validate_gitops_content "${NAMESPACE}" "1-infrastructure" "${SERVER_NAME}" "${TYPE}" "console-link-job-sa" "Chart.yaml"
+validate_gitops_content "${NAMESPACE}" "1-infrastructure" "${SERVER_NAME}" "${TYPE}" "console-link-cronjob-sa" "values.yaml"
+validate_gitops_content "${NAMESPACE}" "1-infrastructure" "${SERVER_NAME}" "${TYPE}" "console-link-cronjob-sa" "Chart.yaml"
 
 check_k8s_namespace "${NAMESPACE}"
-check_k8s_resource "${NAMESPACE}" serviceaccount console-link-job
+check_k8s_resource "${NAMESPACE}" serviceaccount console-link-cronjob
 check_k8s_resource "${NAMESPACE}" cronjob console-link-cronjob
 
 cd ..

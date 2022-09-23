@@ -1,7 +1,7 @@
 locals {
   layer = "services"
-  yaml_dir = "${path.cwd}/.tmp/console-link-job"
-  name = "console-link-job"
+  yaml_dir = "${path.cwd}/.tmp/console-link-cronjob"
+  name = "console-link-cronjob"
   application_branch = "main"
   type = "base"
 }
