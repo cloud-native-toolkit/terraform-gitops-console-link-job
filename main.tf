@@ -7,7 +7,7 @@ locals {
 }
 
 resource gitops_service_account sa {
-  name = "console-link-job"
+  name = "console-link-cronjob"
   namespace = var.namespace
   server_name = var.server_name
   config = yamlencode(var.gitops_config)
