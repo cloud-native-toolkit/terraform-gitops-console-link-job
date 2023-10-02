@@ -1,14 +1,20 @@
-module "dev_cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-login.git"
+module "cluster" {
+  source = "github.com/cloud-native-toolkit/terraform-ibm-cluster-login.git"
 
-  server_url = var.server_url
-  login_user = var.cluster_username
-  login_password = var.cluster_password
-  login_token = ""
+  resource_group_name = var.resource_group_name
+  region = var.region
+  name = var.cluster_name
+  name_prefix = var.name_prefix
 }
 
 resource null_resource output_kubeconfig {
   provisioner "local-exec" {
-    command = "echo '${module.dev_cluster.platform.kubeconfig}' > .kubeconfig"
+    command = "echo '${module.cluster.platform.kubeconfig}' > .kubeconfig"
+  }
+}
+
+resource null_resource output_cluster_type {
+  provisioner "local-exec" {
+    command = "echo '${module.cluster.platform.type_code}' > .cluster_type"
   }
 }
