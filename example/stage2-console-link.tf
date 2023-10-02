@@ -1,5 +1,5 @@
 module "gitops_console_link" {
-  source = "./module"
+  source = "../"
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
